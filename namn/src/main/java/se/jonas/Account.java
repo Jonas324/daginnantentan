@@ -6,9 +6,12 @@ public class Account {
     private String namn;
     private int saldo;
 
-    public Account(String kontonummer) {
+    public Account(String kontonummer, String namn) throws Exception {
         super();
         this.kontonummer = kontonummer;
+        if(this.setNamn(namn)){
+            throw new Exception("Fel");
+        }
     }
 
     public boolean setNamn(String namn) {
@@ -19,5 +22,11 @@ public class Account {
             this.namn = namn;
             return true;
         }
+    }
+
+    public WithdrawlStatus withdraw(int belopp){
+        if (belopp > 3000) return WithdrawlStatus.MAX_BELOPP_3000_PER_DAY;
+        if (belopp < 300) return WithdrawlStatus.SALDO_TOO_LOW;
+        else return WithdrawlStatus.OK;
     }
 }
